@@ -17,8 +17,6 @@ namespace ImageService.WebApplication.Models {
         public Logs(string typeFilter) {
             m_typeFilter = typeFilter != null && typeFilter != "" ? typeFilter.ToUpper() : null;
             LogMessages = new List<LogRecord>();
-            LogMessages.Add(new LogRecord("DAFNA", MessageTypeEnum.FAIL));
-            LogMessages.Add(new LogRecord("GOOD JOB", MessageTypeEnum.WARNING));
 
             if(ClientCommunication.Instance.Connected) {
                 finishedGettingLogs = false;

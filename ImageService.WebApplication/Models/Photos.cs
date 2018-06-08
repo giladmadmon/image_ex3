@@ -3,49 +3,37 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.ComponentModel.DataAnnotations;
+using System.IO;
 
-namespace ImageService.WebApplication.Models
-{
-    public class Employee
-    {
-        static int count = 0;
-        public Employee() {
-            count++;
-            ID = count;
+namespace ImageService.WebApplication.Models {
+    public class Photos {
+        private static readonly string[] extensions = { ".jpg", ".png", ".gif", ".bmp" }; // the extensions to be monitored
+
+        public Photos() {
+            this.AllPhotos = new List<string>();
+            this.OutputDirPath = new Config().OutputDirPath;
+            this.ThumbnailsDirPath = Path.Combine(OutputDirPath, "Thumbnails");
+
+            string[] allPhotos = Directory.GetFiles(OutputDirPath, "*", SearchOption.AllDirectories);
+            foreach(string photo in allPhotos) {
+                if(!photo.StartsWith(ThumbnailsDirPath) && extensions.Contains(Path.GetExtension(photo))) {
+                    AllPhotos.Add(photo);
+                }
+            }
         }
-        public void copy(Employee emp) {
-            FirstName = emp.FirstName;
-            Email = emp.Email;
-            Phone = emp.Phone;
-            Salary = emp.Salary;
-            LastName = emp.LastName;
-        }
+
         [Required]
-        [Display(Name = "ID")]
-        public int ID { get; set; }
-        [Required]
-        [DataType(DataType.Text)]
-        [Display(Name = "FirstName")]
-        public string FirstName { get; set; }
+        [Display(Name = "Photos")]
+        public List<string> AllPhotos { get; set; }
 
         [Required]
         [DataType(DataType.Text)]
-        [Display(Name = "LastName")]
-        public string LastName { get; set; }
+        [Display(Name = "Photos Directory")]
+        public string OutputDirPath { get; set; }
 
         [Required]
-        [DataType(DataType.Currency)]
-        [Display(Name = "Salary")]
-        public int Salary { get; set; }
-
-        [Required]
-        [DataType(DataType.PhoneNumber)]
-        [Display(Name = "Phone")]
-        public string Phone { get; set; }
-
-        [Required]
-        [EmailAddress]
-        [Display(Name = "Email")]
-        public string Email { get; set; }
+        [DataType(DataType.Text)]
+        [Display(Name = "Thumbnails Directory")]
+        public string ThumbnailsDirPath { get; set; }
     }
 }

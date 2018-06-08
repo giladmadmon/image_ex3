@@ -20,15 +20,7 @@ namespace ImageService.WebApplication.Controllers {
             return View();
         }
 
-        [HttpGet]
-        public JObject GetEmployee() {
-            JObject data = new JObject();
-            data["FirstName"] = "Kuky";
-            data["LastName"] = "Mopy";
-            return data;
-        }
-
-        // GET: First/Details
+        // GET: First/logType
         public ActionResult Logs(String logType) {
             return View(new Logs(logType));
         }
@@ -38,9 +30,43 @@ namespace ImageService.WebApplication.Controllers {
             return View(new Config());
         }
 
-        // GET: First/Delete
-        public ActionResult Delete(string folder) {
+        // GET: First/DeleteFolder
+        [HttpGet]
+        public ActionResult DeleteFolder(string folder) {
             return View((object)folder);
+        }
+
+        [HttpPost]
+        public void DeleteFolder(string folder, bool confirm = false) {
+            if(confirm && new Config().Folders.Contains(folder)) {
+                new DeleteFolder(folder).SendDelete();
+            }
+        }
+
+        // GET: First/DeleteImage
+        [HttpGet]
+        public ActionResult DeleteImage(string path, string image) {
+            Dictionary<String, String> imageInfo = new Dictionary<String, String>() { { "path", path }, { "image", image } };
+            return View(imageInfo);
+        }
+
+        [HttpPost]
+        public void DeleteImage(string image, bool confirm = false) {
+            if(confirm) {
+                new DeleteImage(image).Delete();
+            }
+        }
+
+        // GET: First/ViewImage
+        public ActionResult ViewImage(string path, string image) {
+            Dictionary<String, String> imageInfo = new Dictionary<String, String>() { { "path", path }, { "image", image } };
+            return View(imageInfo);
+        }
+
+
+        // GET: First/Photos
+        public ActionResult Photos() {
+            return View(new Photos());
         }
     }
 }

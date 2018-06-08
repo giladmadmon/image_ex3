@@ -47,20 +47,17 @@
 
         <h3>Folders</h3>
         @foreach(string folder in Model.Folders) {
-            @Html.ActionLink(@folder, "Delete", new { controller = "First", folder = @folder }, new { @class = "btn btn-default", style = "background-color: #dddddd;border-color: #dddddd;" })
-            <br /> <br />
+            <div style="margin-bottom:7px;">
+                @Html.ActionLink(@folder, "DeleteFolder", new { controller = "First", folder = @folder }, new { @class = "btn btn-default", style = "background-color: #dddddd;border-color: #dddddd;" })
+            </div>
         }
 
         <script>
             function onFolderClick(elmnt) {
                 alert(elmnt.innerHTML);
-                location.href = "/First/Delete/folder=" + elmnt.innerHTML;
+                location.href = "/First/DeleteFolder/folder=" + elmnt.innerHTML;
             }
         </script>
 
-        <div>
-            <br /><br />
-            @Html.ActionLink("Back to List", "Index")
-        </div>
     </div>
 }

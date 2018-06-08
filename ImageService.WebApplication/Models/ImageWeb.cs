@@ -14,6 +14,7 @@ namespace ImageService.WebApplication.Models {
         private bool finishedPhotosAmount;
         private bool finishedStudentsInfo;
         public ImageWeb() {
+            Students = new List<Student>();
             if(ClientCommunication.Instance.Connected) {
                 finishedPhotosAmount = false;
                 finishedStudentsInfo = false;
@@ -29,7 +30,7 @@ namespace ImageService.WebApplication.Models {
             CommandMessage cmdMsg = CommandMessage.FromJSON(e.Data);
 
             if(cmdMsg.CmdId == CommandEnum.GetConfigCommand) {
-                PhotosAmount = Directory.GetFiles(cmdMsg.Args[2]).Length.ToString();
+                PhotosAmount = Directory.GetFiles(Path.Combine(cmdMsg.Args[2], "Thumbnails"), "*", SearchOption.AllDirectories).Length.ToString();
 
                 ClientCommunication.Instance.OnDataRecieved -= GetPhotosAmount;
                 finishedPhotosAmount = true;
@@ -39,8 +40,6 @@ namespace ImageService.WebApplication.Models {
             CommandMessage cmdMsg = CommandMessage.FromJSON(e.Data);
 
             if(cmdMsg.CmdId == CommandEnum.GetStudentsInfoCommand) {
-                Students = new List<Student>();
-
                 foreach(string student in cmdMsg.Args) {
                     string[] studentInfo = student.Split(',');
                     Students.Add(new Student(studentInfo[0], studentInfo[1], int.Parse(studentInfo[2])));

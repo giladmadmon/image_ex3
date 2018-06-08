@@ -1,69 +1,29 @@
-﻿@model ImageService.WebApplication.Models.Employee
+﻿@model ImageService.WebApplication.Models.Photos
 
 @{
-    ViewBag.Title = "Edit";
+    ViewBag.Title = "Photos";
 }
 
-<h2>Edit</h2>
+<h2>Photos - Preview</h2>
 
-@using (Html.BeginForm())
-{
-    @Html.AntiForgeryToken()
-    
-    <div class="form-horizontal">
-        <h4>Employee</h4>
-        <hr />
-        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-        @Html.HiddenFor(model => model.ID)
+<div class="container" id="tourpackages-carousel">
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.FirstName, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.FirstName, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.FirstName, "", new { @class = "text-danger" })
+    <div class="row">
+        @foreach(string photo in Model.AllPhotos) {
+            <div class="col-xs-18 col-sm-6 col-md-3" style="margin-bottom:10px;">
+                <div class="thumbnail">
+                    <img src="/@photo.Replace(Model.OutputDirPath,Model.ThumbnailsDirPath).Replace(Server.MapPath("~"),"").Replace("\\","/")" alt="Avatar" style="border-radius:50%;">
+                    <div class="caption">
+                        <h4>@Path.GetFileNameWithoutExtension(photo).Substring(0, Math.Min(15, Path.GetFileNameWithoutExtension(photo).Length))</h4>
+                        <p>Date: @Path.GetDirectoryName(photo).Replace(Model.OutputDirPath, "").Substring(1).Split('\\')[1].@Path.GetDirectoryName(photo).Replace(Model.OutputDirPath, "").Substring(1).Split('\\')[0]</p>
+                        <p>
+                            @Html.ActionLink("View", "ViewImage", new { controller = "First", path = @Path.GetDirectoryName(photo).Replace(Server.MapPath("~"), "").Replace("\\", "/"), image = @Path.GetFileName(photo) },
+                                    new { @class = "btn btn-primary btn-xs", style = "width : 45% ; float : left", role = "button" })
+                            @Html.ActionLink("Delete", "DeleteImage", new { controller = "First", image = @photo },
+                                    new { @class = "btn btn-danger btn-xs", style = "width : 45% ; float : right", role = "button" })
+                    </div>
+                </div>
             </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.LastName, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.LastName, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.LastName, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.Salary, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.Salary, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Salary, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.Phone, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.Phone, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Phone, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.Email, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Save" class="btn btn-default" />
-            </div>
-        </div>
-    </div>
-}
-
-<div>
-    @Html.ActionLink("Back to List", "Index")
-</div>
+        }
+    </div><!-- End row -->
+</div><!-- End container -->

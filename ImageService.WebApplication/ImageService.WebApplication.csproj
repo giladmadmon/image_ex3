@@ -137,10 +137,12 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\DeleteImage.cs" />
+    <Compile Include="Models\DeleteFolder.cs" />
     <Compile Include="Models\Config.cs" />
     <Compile Include="Models\Logs.cs" />
     <Compile Include="Models\ImageWeb.cs" />
-    <Compile Include="Models\Employee.cs" />
+    <Compile Include="Models\Photos.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -148,10 +150,9 @@
     <Content Include="packages.config" />
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
-    <Content Include="Views\First\ImageWeb.cshtml" />
     <Content Include="Views\First\Config.cshtml" />
     <Content Include="Views\First\Logs.cshtml" />
-    <Content Include="Views\First\Edit.cshtml" />
+    <Content Include="Views\First\Photos.cshtml" />
     <Content Include="Views\First\Error.cshtml" />
     <Content Include="Views\First\Index.cshtml" />
     <Content Include="fonts\glyphicons-halflings-regular.eot" />
@@ -160,7 +161,9 @@
     <Content Include="scripts\jquery-1.10.2.min.map" />
     <Content Include="scripts\jquery-3.0.0.min.map" />
     <Content Include="scripts\jquery-3.0.0.slim.min.map" />
-    <Content Include="Views\First\Delete.cshtml" />
+    <Content Include="Views\First\DeleteFolder.cshtml" />
+    <Content Include="Views\First\DeleteImage.cshtml" />
+    <Content Include="Views\First\ViewImage.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -170,6 +173,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Photos\" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
