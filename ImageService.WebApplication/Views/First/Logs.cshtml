@@ -1,0 +1,44 @@
+﻿@model ImageService.WebApplication.Models.Logs
+
+@{
+    ViewBag.Title = "Logs";
+}
+
+<h2>Logs Records</h2>
+
+
+<form action="/First/Logs" style="float:right">
+    Logs type - enter INFO/WARNING/FAIL or none for all:<br>
+    <input type="text" name="logType" style="width:50%;">
+
+    <input type="submit" value="Submit" style="float:right;width:45%;" class="btn-info">
+</form>
+
+
+
+
+
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.LogMessages[0].Type)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.LogMessages[0].Message)
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach(var item in Model.LogMessages) {
+        <tr>
+            <th style="color:@(item.Type.ToString().Equals("INFO")?"green":item.Type.ToString().Equals("FAIL")?"red":"yellow");">
+                @Html.DisplayFor(modelItem => item.Type)
+            </th>
+            <td>
+                @Html.DisplayFor(modelItem => item.Message)
+            </td>
+        </tr>
+    }
+
+</table>
