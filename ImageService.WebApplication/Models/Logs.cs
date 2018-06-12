@@ -14,9 +14,13 @@ namespace ImageService.WebApplication.Models {
     public class Logs {
         private bool finishedGettingLogs;
         private string m_typeFilter;
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Logs"/> class.
+        /// </summary>
+        /// <param name="typeFilter">The type filter.</param>
         public Logs(string typeFilter) {
             m_typeFilter = typeFilter != null && typeFilter != "" ? typeFilter.ToUpper() : null;
-            LogMessages = new List<LogRecord>();
+            LogMessages = new LogMessageRecords();
 
             if(ClientCommunication.Instance.Connected) {
                 finishedGettingLogs = false;
@@ -28,13 +32,13 @@ namespace ImageService.WebApplication.Models {
 
         [Required]
         [Display(Name = "Log Messages")]
-        public List<LogRecord> LogMessages { get; set; }
+        public LogMessageRecords LogMessages { get; set; }
 
         /// <summary>
         /// Adds the logs to the logs list.
         /// </summary>
         /// <param name="sender">The sender.</param>
-        /// <param name="e">The <see cref="Communication.Model.Event.DataReceivedEventArgs"/> instance containing the event data.</param>
+        /// <param name="e">The <see cref="Communication.Model.Event.DataReceivedEventArgs" /> instance containing the event data.</param>
         private void AddLogs(object sender, Communication.Model.Event.DataReceivedEventArgs e) {
             try {
                 CommandMessage cmdMsg = CommandMessage.FromJSON(e.Data);
@@ -43,7 +47,7 @@ namespace ImageService.WebApplication.Models {
                     foreach(string logMsg in cmdMsg.Args) {
                         LogMessageRecord msgRcrd = LogMessageRecord.FromJSON(logMsg);
                         if(m_typeFilter == null || msgRcrd.Type.ToString().Equals(m_typeFilter))
-                            this.LogMessages.Add(new LogRecord(msgRcrd.Message, msgRcrd.Type));
+                            this.LogMessages.Add(new LogMessageRecord(msgRcrd.Message, msgRcrd.Type));
                     }
 
                     ClientCommunication.Instance.OnDataRecieved -= AddLogs;
@@ -61,6 +65,11 @@ namespace ImageService.WebApplication.Models {
         [Display(Name = "Type")]
         public MessageTypeEnum Type { get; set; }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="LogRecord"/> class.
+        /// </summary>
+        /// <param name="message">The message.</param>
+        /// <param name="type">The type.</param>
         public LogRecord(string message, MessageTypeEnum type) {
             this.Message = message;
             this.Type = type;

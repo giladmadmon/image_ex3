@@ -13,6 +13,9 @@ namespace ImageService.WebApplication.Models {
     public class ImageWeb {
         private bool finishedPhotosAmount;
         private bool finishedStudentsInfo;
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ImageWeb"/> class.
+        /// </summary>
         public ImageWeb() {
             Students = new List<Student>();
             if(ClientCommunication.Instance.Connected) {
@@ -26,6 +29,11 @@ namespace ImageService.WebApplication.Models {
             }
         }
 
+        /// <summary>
+        /// Gets the photos amount.
+        /// </summary>
+        /// <param name="sender">The sender.</param>
+        /// <param name="e">The <see cref="Communication.Model.Event.DataReceivedEventArgs"/> instance containing the event data.</param>
         private void GetPhotosAmount(object sender, Communication.Model.Event.DataReceivedEventArgs e) {
             CommandMessage cmdMsg = CommandMessage.FromJSON(e.Data);
 
@@ -36,6 +44,11 @@ namespace ImageService.WebApplication.Models {
                 finishedPhotosAmount = true;
             }
         }
+        /// <summary>
+        /// Gets the students information.
+        /// </summary>
+        /// <param name="sender">The sender.</param>
+        /// <param name="e">The <see cref="Communication.Model.Event.DataReceivedEventArgs"/> instance containing the event data.</param>
         private void GetStudentsInfo(object sender, Communication.Model.Event.DataReceivedEventArgs e) {
             CommandMessage cmdMsg = CommandMessage.FromJSON(e.Data);
 
@@ -68,6 +81,12 @@ namespace ImageService.WebApplication.Models {
         public List<Student> Students { get; set; }
 
         public class Student {
+            /// <summary>
+            /// Initializes a new instance of the <see cref="Student"/> class.
+            /// </summary>
+            /// <param name="firstName">The first name.</param>
+            /// <param name="lastName">The last name.</param>
+            /// <param name="ID">The identifier.</param>
             public Student(string firstName, string lastName, int ID) {
                 this.ID = ID;
                 this.FirstName = firstName;

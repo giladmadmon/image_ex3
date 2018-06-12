@@ -11,6 +11,9 @@ using ImageService.Infrastructure.Enums;
 namespace ImageService.WebApplication.Models {
     public class Config {
         private bool finished;
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Config"/> class.
+        /// </summary>
         public Config() {
             Folders = new List<string>();
             if(ClientCommunication.Instance.Connected) {
@@ -21,6 +24,11 @@ namespace ImageService.WebApplication.Models {
             }
         }
 
+        /// <summary>
+        /// Gets the configs.
+        /// </summary>
+        /// <param name="sender">The sender.</param>
+        /// <param name="e">The <see cref="Communication.Model.Event.DataReceivedEventArgs"/> instance containing the event data.</param>
         private void GetConfigs(object sender, Communication.Model.Event.DataReceivedEventArgs e) {
             CommandMessage cmdMsg = CommandMessage.FromJSON(e.Data);
 

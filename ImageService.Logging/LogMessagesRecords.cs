@@ -62,7 +62,7 @@ public class LogMessageRecords : ObservableCollection<LogMessageRecord> {
     /// Turn LogMessageRecords to JSON format.
     /// </summary>
     /// <returns></returns>
-    public string ToJSON() {
+    public JObject ToJSON() {
         JObject logMessageRecords = new JObject();
         logMessageRecords["Size"] = this.Count;
 
@@ -70,10 +70,10 @@ public class LogMessageRecords : ObservableCollection<LogMessageRecord> {
             JObject logMessage = new JObject();
             logMessage["Message"] = this[i - 1].Message;
             logMessage["Type"] = (int)this[i - 1].Type;
-            logMessageRecords[i] = logMessage;
+            logMessageRecords[i.ToString()] = logMessage;
         }
 
-        return logMessageRecords.ToString();
+        return logMessageRecords;
     }
 
     /// <summary>

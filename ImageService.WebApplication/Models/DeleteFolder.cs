@@ -11,10 +11,19 @@ using ImageService.Infrastructure.Enums;
 namespace ImageService.WebApplication.Models {
     public class DeleteFolder {
         private bool finished;
+        /// <summary>
+        /// Initializes a new instance of the <see cref="DeleteFolder"/> class.
+        /// </summary>
+        /// <param name="folder">The folder.</param>
         public DeleteFolder(string folder) {
             this.Folder = folder;
         }
 
+        /// <summary>
+        /// Called when [client close].
+        /// </summary>
+        /// <param name="sender">The sender.</param>
+        /// <param name="e">The <see cref="Communication.Model.Event.DataReceivedEventArgs"/> instance containing the event data.</param>
         private void OnClientClose(object sender, Communication.Model.Event.DataReceivedEventArgs e) {
             CommandMessage cmdMsg = CommandMessage.FromJSON(e.Data);
 
@@ -29,6 +38,9 @@ namespace ImageService.WebApplication.Models {
         [Display(Name = "Folder")]
         public string Folder { get; set; }
 
+        /// <summary>
+        /// Sends the delete command.
+        /// </summary>
         public void SendDelete() {
             if(ClientCommunication.Instance.Connected) {
                 finished = false;

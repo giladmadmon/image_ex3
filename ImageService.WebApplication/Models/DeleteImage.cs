@@ -11,15 +11,22 @@ using System.IO;
 
 namespace ImageService.WebApplication.Models {
     public class DeleteImage {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="DeleteImage"/> class.
+        /// </summary>
+        /// <param name="image">The image.</param>
         public DeleteImage(string image) {
             this.Image = image;
         }
 
         [Required]
         [DataType(DataType.Text)]
-        [Display(Name = "Folder")]
+        [Display(Name = "Image")]
         public string Image { get; set; }
 
+        /// <summary>
+        /// Deletes the image in this instance.
+        /// </summary>
         public void Delete() {
             try {
                 Photos photos = new Photos();

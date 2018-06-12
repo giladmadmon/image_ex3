@@ -9,6 +9,9 @@ namespace ImageService.WebApplication.Models {
     public class Photos {
         private static readonly string[] extensions = { ".jpg", ".png", ".gif", ".bmp" }; // the extensions to be monitored
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Photos"/> class.
+        /// </summary>
         public Photos() {
             this.AllPhotos = new List<string>();
             this.OutputDirPath = new Config().OutputDirPath;
